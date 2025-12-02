@@ -2,7 +2,7 @@
 
 {{-- Page title --}}
 @section('title')
-{{ trans('general.consumables') }}
+{{ trans('general.consumables') }} - Laporan Stok Custom
 @parent
 @stop
 
@@ -14,33 +14,77 @@
 
     <div class="box box-default">
       <div class="box-body">
+        
+        {{-- Tabel Snipe-IT Custom --}}
         <table
-                data-columns="{{ \App\Presenters\ConsumablePresenter::dataTableLayout() }}"
-                data-cookie-id-table="consumablesTable"
-                data-id-table="consumablesTable"
-                data-side-pagination="server"
-                data-footer-style="footerStyle"
-                data-show-footer="true"
-                data-sort-order="asc"
-                data-sort-name="name"
-                data-toolbar="#toolbar"
-                id="consumablesTable"
-                data-buttons="consumableButtons"
-                class="table table-striped snipe-table"
-                data-url="{{ route('api.consumables.index') }}"
-                data-export-options='{
-                "fileName": "export-consumables-{{ date('Y-m-d') }}",
-                "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","icon"]
-                }'>
+            id="consumablesTable"
+            class="table table-striped snipe-table"
+            
+            {{-- Konfigurasi Sumber Data --}}
+            data-url="{{ route('api.custom.stock-report') }}"
+            data-method="get"
+            
+            {{-- Konfigurasi Tampilan & Fitur --}}
+            data-cookie="true"
+            data-cookie-id-table="consumablesTableCustom"
+            data-side-pagination="client"  {{-- PENTING: 'client' agar search/sort berfungsi otomatis --}}
+            data-pagination="true"
+            data-show-footer="true"
+            data-search="true"
+            data-show-refresh="true"
+            data-show-columns="true"
+            data-show-export="true"
+            data-sort-order="asc"
+            data-sort-name="consumable_name"
+            data-toolbar="#toolbar"
+            
+            data-export-options='{
+                "fileName": "laporan-stok-{{ date('Y-m-d') }}"
+            }'>
+
+            <thead>
+                <tr>
+                    {{-- Mapping Kolom Database View ke Kolom Tabel HTML --}}
+                    
+                    <th data-field="consumable_name" data-sortable="true" data-searchable="true">
+                        Nama Barang
+                    </th>
+                    
+                    <th data-field="assigned_to_name" data-sortable="true" data-searchable="true">
+                        Penerima
+                    </th>
+                    
+                    <th data-field="quantity_assigned" data-sortable="true">
+                        Jumlah Keluar
+                    </th>
+                    
+                    <th data-field="assigned_date" data-sortable="true" data-formatter="dateFormatter">
+                        Tanggal
+                    </th>
+                    
+                    <th data-field="total_stock" data-sortable="true">
+                        Sisa Stok
+                    </th>
+                </tr>
+            </thead>
         </table>
 
-      </div><!-- /.box-body -->
-    </div><!-- /.box -->
-
-  </div> <!-- /.col-md-12 -->
-</div> <!-- /.row -->
-@stop
+      </div></div></div> </div> @stop
 
 @section('moar_scripts')
-@include ('partials.bootstrap-table', ['exportFile' => 'consumables-export', 'search' => true,'showFooter' => true, 'columns' => \App\Presenters\ConsumablePresenter::dataTableLayout()])
+{{-- Script Bawaan Snipe-IT untuk format tanggal --}}
+<script>
+    function dateFormatter(value, row) {
+        if (value) {
+            // Format tanggal sederhana
+            return new Date(value).toLocaleDateString('id-ID', {
+                day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+        }
+        return value;
+    }
+</script>
+
+{{-- Memuat Library Bootstrap Table --}}
+@include ('partials.bootstrap-table')
 @stop

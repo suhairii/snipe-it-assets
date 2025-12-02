@@ -760,3 +760,7 @@ Route::middleware(['auth'])->get(
     ->breadcrumbs(fn (Trail $trail) =>
     $trail->push('Home', route('home'))
     );
+    // Route Custom untuk Laporan Stok
+Route::get('api/custom/stock-report', [App\Http\Controllers\Api\StockReportController::class, 'index'])
+    ->name('api.custom.stock-report')
+    ->middleware('auth'); // Menambahkan middleware auth agar hanya user login yang bisa akses
