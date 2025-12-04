@@ -742,7 +742,7 @@ Route::group(['middleware' => 'web'], function () {
     )->name('ui.files.destroy')
         ->where(['object_type' => 'assets|maintenances|hardware|models|users|locations|accessories|consumables|licenses|suppliers|components']);
 });
-
+Route::post('consumables/{consumable}/add-stock', [\App\Http\Controllers\Api\ConsumablesController::class, 'addStock'])->name('consumables.add-stock');
 
 /**
  * Health check route - skip middleware

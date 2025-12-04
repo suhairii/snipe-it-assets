@@ -353,4 +353,40 @@ class ConsumablesController extends Controller
 
         return (new SelectlistTransformer)->transformSelectlist($consumables);
     }
+
+    /**
+     * Custom Method: Add Stock
+     * Menambahkan stok ke consumable yang sudah ada.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addStock(Request $request, $id)
+    {
+        // Validasi input harus angka dan minimal 1
+        $request->validate([
+            'qty_to_add' => 'required|integer|min:1',
+        ]);
+
+        // Cari data consumable
+        $consumable = Consumable::find($id);
+
+        if (is_null($consumable)) {
+            return redirect()->route('consumables.index')->with('error', trans('admin/consumables/message.does_not_exist'));
+        }
+
+        // Cek otorisasi user (menggunakan policy 'update')
+        $this->authorize('update', $consumable);
+
+        // Tambahkan stok lama + stok baru
+        $consumable->qty = $consumable->qty + $request->input('qty_to_add');
+        
+        // Simpan ke database
+        if ($consumable->save()) {
+            return redirect()->route('consumables.show', $id)->with('success', 'Stok berhasil ditambahkan sebanyak ' . $request->input('qty_to_add'));
+        }
+
+        return redirect()->route('consumables.show', $id)->with('error', 'Gagal menambahkan stok. Silakan coba lagi.');
+    }
 }

@@ -84,7 +84,338 @@ dir="{{ Helper::determineLanguageDirection() }}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <script src="{{ url(asset('js/html5shiv.js')) }}" nonce="{{ csrf_token() }}"></script>
     <script src="{{ url(asset('js/respond.js')) }}" nonce="{{ csrf_token() }}"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+<style>
+
+
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+
+}
+
+body {
+
+background-color: #f3f4f6;
+
+color: #1f2937;
+
+font-size: 14px;
+
+}
+
+
+
+.box {
+
+border-radius: 16px !important;
+
+box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
+
+border: none !important;
+
+background: #fff;
+
+margin-bottom: 30px !important;
+
+}
+
+.box-header {
+
+padding: 20px 30px !important;
+
+border-bottom: 1px solid #f3f4f6;
+
+border-radius: 16px 16px 0 0 !important;
+
+}
+
+.box-title {
+
+font-weight: 700 !important;
+
+font-size: 18px !important;
+
+color: #111827;
+
+letter-spacing: -0.5px;
+
+}
+
+.box-body {
+
+padding: 30px !important;
+
+}
+
+.box-footer {
+
+background-color: #fff !important;
+
+border-top: 1px solid #f3f4f6 !important;
+
+border-radius: 0 0 16px 16px !important;
+
+padding: 20px 30px !important;
+
+}
+
+
+
+.btn {
+
+border-radius: 8px !important;
+
+box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+
+font-weight: 600;
+
+border: 1px solid transparent !important;
+
+padding: 8px 20px;
+
+transition: all 0.2s ease;
+
+font-size: 13px;
+
+letter-spacing: 0.3px;
+
+}
+
+
+
+.btn-primary { background-color: #3b82f6 !important; color: #fff !important; box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3); }
+
+.btn-success { background-color: #10b981 !important; color: #fff !important; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
+
+.btn-danger { background-color: #ef4444 !important; color: #fff !important; }
+
+.btn-warning { background-color: #f59e0b !important; color: #fff !important; }
+
+.btn-default {
+
+background-color: #fff !important;
+
+border: 1px solid #e5e7eb !important;
+
+color: #374151 !important;
+
+}
+
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 8px -1px rgba(0,0,0,0.1); opacity: 0.95; }
+
+
+
+
+.form-control {
+
+border-radius: 10px !important;
+
+height: 45px;
+
+border: 1px solid #e5e7eb !important;
+
+background-color: #f9fafb;
+
+padding: 0 15px;
+
+transition: all 0.2s;
+
+}
+
+.form-control:focus {
+
+border-color: #3b82f6 !important;
+
+background-color: #fff;
+
+box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+
+}
+
+.select2-container .select2-selection--single {
+
+height: 45px !important;
+
+border-radius: 10px !important;
+
+border: 1px solid #e5e7eb !important;
+
+background-color: #f9fafb !important;
+
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+
+line-height: 32px !important;
+
+padding-left: 15px !important;
+
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+
+height: 43px !important;
+
+}
+
+
+
+.table-responsive { border: none !important; }
+
+.table > thead > tr > th {
+
+background-color: #f9fafb;
+
+color: #6b7280;
+
+font-weight: 600;
+
+text-transform: uppercase;
+
+font-size: 11px;
+
+letter-spacing: 0.05em;
+
+border-bottom: 1px solid #e5e7eb !important;
+
+padding: 15px 20px !important;
+
+}
+
+.table > tbody > tr > td {
+
+padding: 16px 20px !important;
+
+vertical-align: middle !important;
+
+border-top: 1px solid #f3f4f6 !important;
+
+color: #4b5563;
+
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) { background-color: #ffffff; }
+
+.table-striped > tbody > tr:nth-of-type(even) { background-color: #f9fafb; }
+
+
+
+
+.fixed-table-toolbar .columns,
+
+.fixed-table-toolbar .bs-bars {
+
+margin-top: 15px;
+
+margin-bottom: 15px;
+
+}
+
+
+
+
+.fixed-table-toolbar .btn-group > .btn {
+
+float: none !important;
+
+display: inline-block !important;
+
+margin-left: 5px !important; /* Jarak antar tombol */
+
+margin-right: 5px !important;
+
+border-radius: 10px !important; /* Membuat tombol bulat sendiri-sendiri */
+
+border: 1px solid #e5e7eb !important;
+
+background-color: #ffffff !important;
+
+color: #4b5563 !important;
+
+height: 40px;
+
+box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+
+}
+
+
+
+
+.fixed-table-toolbar .btn-group > .btn:hover,
+
+.fixed-table-toolbar .btn-group > .btn.active {
+
+background-color: #f3f4f6 !important;
+
+border-color: #3b82f6 !important;
+
+color: #3b82f6 !important;
+
+z-index: 1;
+
+}
+
+
+
+/* Ikon di dalam tombol toolbar */
+
+.fixed-table-toolbar .btn > i {
+
+font-size: 14px;
+
+}
+
+
+
+.fixed-table-toolbar .dropdown-menu {
+
+border-radius: 12px !important;
+
+box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+
+border: 1px solid #e5e7eb !important;
+
+margin-top: 10px;
+
+}
+
+
+.main-header .navbar { box-shadow: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+.main-header .logo { font-weight: 800; letter-spacing: -0.5px; }
+
+.sidebar-menu > li > a { border-radius: 0 50px 50px 0; margin-right: 20px; padding: 12px 20px; }
+
+.sidebar-menu > li.active > a { font-weight: 700; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+
+
+/* 7. OTHER UI ELEMENTS */
+
+.badge { padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 10px; }
+
+.label { border-radius: 6px; padding: 5px 10px; font-size: 11px; }
+
+.nav-tabs-custom { border-radius: 16px; }
+
+.alert { border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: none; }
+
+
+
+/* Hilangkan garis kotak luar tabel bootstrap */
+
+.bootstrap-table .fixed-table-container {
+
+border: 1px solid #f3f4f6 !important;
+
+border-radius: 16px;
+
+overflow: hidden;
+
+}
+
+</style>
 
 </head>
 

@@ -16,13 +16,9 @@
 {{-- Page content --}}
 @section('content')
 
-
-
-
   <div class="row">
     <div class="col-md-12">
       <div class="nav-tabs-custom">
-        <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
           <ul class="nav nav-tabs hidden-print">
 
@@ -84,7 +80,6 @@
           <div class="tab-pane active" id="details">
             <div class="row">
               <div class="info-stack-container">
-              <!-- Start button column -->
               <div class="col-md-3 col-xs-12 col-sm-push-9 info-stack">
 
                 @if ($consumable->image!='')
@@ -103,6 +98,17 @@
                     </a>
                   </div>
                 @endcan
+
+                {{-- MODIFIKASI: TOMBOL TAMBAH STOK --}}
+                @can('update', $consumable)
+                  <div class="col-md-12">
+                    <button style="margin-bottom:5px;" class="btn btn-sm btn-block btn-primary btn-social hidden-print" data-toggle="modal" data-target="#addStockModal">
+                      <i class="fas fa-plus"></i>
+                      Tambah Stok
+                    </button>
+                  </div>
+                @endcan
+                {{-- AKHIR MODIFIKASI --}}
 
                   @can('checkout', $consumable)
                     @if ($consumable->numRemaining() > 0)
@@ -149,14 +155,11 @@
                   @endcan
               </div>
 
-              <!-- End button column -->
-
               <div class="col-md-9 col-xs-12 col-sm-pull-3 info-stack">
 
                 <div class="row-new-striped" style="margin: 0px;">
 
                   <div class="row row-new-striped">
-                    <!-- name -->
                     <div class="col-md-3 col-sm-2">
                       {{ trans('admin/users/table.name') }}
                     </div>
@@ -165,7 +168,6 @@
                     </div>
                   </div>
 
-                  <!-- company -->
                   @if ($consumable->company)
                     <div class="row">
                       <div class="col-md-3">
@@ -177,7 +179,6 @@
                     </div>
                   @endif
 
-                  <!-- category -->
                   @if ($consumable->category)
                     <div class="row">
                       <div class="col-md-3">
@@ -189,7 +190,6 @@
                     </div>
                   @endif
 
-                  <!-- total -->
                   @if ($consumable->qty)
                     <div class="row">
                       <div class="col-md-3">
@@ -201,7 +201,6 @@
                     </div>
                   @endif
 
-                  <!-- remaining -->
                   @if ($consumable->numRemaining())
                     <div class="row">
                       <div class="col-md-3">
@@ -221,7 +220,6 @@
                     </div>
                   @endif
 
-                  <!-- min amt -->
                   @if ($consumable->min_amt)
                     <div class="row">
                       <div class="col-md-3">
@@ -233,7 +231,6 @@
                     </div>
                   @endif
 
-                  <!-- locationm -->
                   @if ($consumable->location)
                     <div class="row">
                       <div class="col-md-3">
@@ -245,7 +242,6 @@
                     </div>
                   @endif
 
-                  <!-- supplier -->
                   @if ($consumable->supplier)
                     <div class="row">
                       <div class="col-md-3">
@@ -257,7 +253,6 @@
                     </div>
                   @endif
 
-                  <!-- supplier -->
                   @if ($consumable->manufacturer)
                     <div class="row">
                       <div class="col-md-3">
@@ -344,7 +339,6 @@
                     </div>
                   @endif
 
-                  <!-- purchase date -->
                   @if ($consumable->purchase_date)
                     <div class="row">
                       <div class="col-md-3">
@@ -357,7 +351,6 @@
                   @endif
 
                   @if ($consumable->adminuser)
-                    <!-- created at -->
                     <div class="row">
                       <div class="col-md-3">
                         {{ trans('general.created_by') }}
@@ -373,7 +366,6 @@
                   @endif
 
                   @if ($consumable->created_at)
-                    <!-- created at -->
                     <div class="row">
                       <div class="col-md-3">
                         {{ trans('general.created_at') }}
@@ -385,7 +377,6 @@
                   @endif
 
                   @if ($consumable->updated_at)
-                    <!-- created at -->
                     <div class="row">
                       <div class="col-md-3">
                         {{ trans('general.updated_at') }}
@@ -397,7 +388,6 @@
                   @endif
 
                   @if ($consumable->notes)
-                    <!-- empty -->
                     <div class="row">
 
                       <div class="col-md-3">
@@ -409,13 +399,7 @@
 
                     </div>
                   @endif
-                </div> <!--/end striped container-->
-              </div> <!-- end col-md-9 -->
-              </div><!-- end info-stack-container -->
-            </div> <!--/.row-->
-          </div><!-- /.tab-pane -->
-
-          <div class="tab-pane" id="checkedout">
+                </div> </div> </div></div> </div><div class="tab-pane" id="checkedout">
 
             <table
                     data-cookie-id-table="consumablesCheckedoutTable"
@@ -445,10 +429,7 @@
               </thead>
             </table>
 
-          </div><!-- /checkedout -->
-
-
-          <div class="tab-pane" id="files">
+          </div><div class="tab-pane" id="files">
 
             <div class="row">
               <div class="col-md-12">
@@ -456,9 +437,7 @@
               </div>
             </div>
 
-          </div><!--/FILES-->
-
-          <div class="tab-pane" id="history">
+          </div><div class="tab-pane" id="history">
             <div class="table-responsive">
 
               <table
@@ -479,16 +458,40 @@
                       data-cookie="true">
               </table>
             </div>
-          </div><!-- /.tab-pane -->
-      </div><!-- /.tab-content -->
-    </div><!-- nav-tabs-custom -->
-  </div>
+          </div></div></div></div>
 
   @can('update', \App\Models\User::class)
     @include ('modals.upload-file', ['item_type' => 'consumable', 'item_id' => $consumable->id])
   @endcan
 
-
+{{-- MODIFIKASI: MODAL POPUP TAMBAH STOK --}}
+<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addStockModalLabel">Tambah Stok: {{ $consumable->name }}</h4>
+      </div>
+      <form action="{{ route('consumables.add-stock', $consumable->id) }}" method="POST" class="form-horizontal">
+        {{ csrf_field() }}
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="qty_to_add" class="col-sm-3 control-label">Jumlah</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="qty_to_add" name="qty_to_add" placeholder="Masukkan jumlah penambahan (misal: 10)" min="1" required>
+              <p class="help-block">Stok saat ini: {{ $consumable->numRemaining() }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Penambahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- AKHIR MODIFIKASI --}}
 
 @stop
 

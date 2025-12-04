@@ -46,7 +46,8 @@
                 <tr>
                     {{-- Mapping Kolom Database View ke Kolom Tabel HTML --}}
                     
-                    <th data-field="consumable_name" data-sortable="true" data-searchable="true">
+                    {{-- MODIFIKASI: Menambahkan data-formatter="nameFormatter" --}}
+                    <th data-field="consumable_name" data-sortable="true" data-searchable="true" data-formatter="nameFormatter">
                         Nama Barang
                     </th>
                     
@@ -72,11 +73,20 @@
       </div></div></div> </div> @stop
 
 @section('moar_scripts')
-{{-- Script Bawaan Snipe-IT untuk format tanggal --}}
 <script>
+    // MODIFIKASI: Fungsi untuk membuat link pada Nama Barang
+    function nameFormatter(value, row) {
+        if (value) {
+            // row.consumable_id didapat dari View Database yang sudah diupdate
+            // Link mengarah ke detail consumable
+            return '<a href="{{ url('/') }}/consumables/' + row.consumable_id + '">' + value + '</a>';
+        }
+        return value;
+    }
+
+    // Fungsi format tanggal
     function dateFormatter(value, row) {
         if (value) {
-            // Format tanggal sederhana
             return new Date(value).toLocaleDateString('id-ID', {
                 day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
             });
