@@ -764,3 +764,22 @@ Route::middleware(['auth'])->get(
 Route::get('api/custom/stock-report', [App\Http\Controllers\Api\StockReportController::class, 'index'])
     ->name('api.custom.stock-report')
     ->middleware('auth'); // Menambahkan middleware auth agar hanya user login yang bisa akses
+/*
+|--------------------------------------------------------------------------
+| Custom Ticket Routes
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth', 'web']], function () {
+    
+    // User Routes
+    Route::get('tickets/my-tickets', [App\Http\Controllers\TicketController::class, 'myTickets'])->name('tickets.my');
+    Route::get('tickets/create', [App\Http\Controllers\TicketController::class, 'create'])->name('tickets.create');
+    Route::post('tickets/store', [App\Http\Controllers\TicketController::class, 'store'])->name('tickets.store');
+
+    // Admin Routes
+    Route::get('tickets/manage', [App\Http\Controllers\TicketController::class, 'manage'])->name('tickets.manage');
+    Route::post('tickets/update/{id}', [App\Http\Controllers\TicketController::class, 'updateStatus'])->name('tickets.update');
+    // Detail & Chat
+    Route::get('tickets/show/{id}', [App\Http\Controllers\TicketController::class, 'show'])->name('tickets.show');
+    Route::post('tickets/comment/{id}', [App\Http\Controllers\TicketController::class, 'storeComment'])->name('tickets.comment');
+});

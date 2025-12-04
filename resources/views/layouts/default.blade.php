@@ -798,7 +798,42 @@ dir="{{ Helper::determineLanguageDirection() }}">
                                 </ul>
                             </li>
                         @endcan
+{{-- MODIFIKASI: MENU TIKETING --}}
+                        @if(Auth::check())
+                        <li class="treeview{{ (request()->is('tickets*') ? ' active' : '') }}">
+                            <a href="#">
+                                <i class="fa fa-ticket fa-fw"></i>
+                                <span>Ticketing</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li {!! (request()->is('tickets/create') ? 'class="active"' : '') !!}>
+                                    <a href="{{ route('tickets.create') }}">
+                                        <i class="fa fa-plus-circle fa-fw"></i>
+                                        Buat Pengajuan
+                                    </a>
+                                </li>
+                                <li {!! (request()->is('tickets/my-tickets') ? 'class="active"' : '') !!}>
+                                    <a href="{{ route('tickets.my') }}">
+                                        <i class="fa fa-list-ul fa-fw"></i>
+                                        Riwayat Saya
+                                    </a>
+                                </li>
 
+                                {{-- Menu Admin Only --}}
+                                @if(Auth::user()->isSuperUser() || Auth::user()->hasAccess('admin'))
+                                <li class="divider"></li>
+                                <li {!! (request()->is('tickets/manage') ? 'class="active"' : '') !!}>
+                                    <a href="{{ route('tickets.manage') }}">
+                                        <i class="fa fa-wrench fa-fw text-orange"></i>
+                                        Kelola Tiket (Admin)
+                                    </a>
+                                </li>
+                                @endif
+                            </ul>
+                        </li>
+                        @endif
+                        {{-- AKHIR MODIFIKASI --}}
                         @can('reports.view')
                             <li class="treeview{{ (request()->is('reports*') ? ' active' : '') }}">
                                 <a href="#" class="dropdown-toggle">
