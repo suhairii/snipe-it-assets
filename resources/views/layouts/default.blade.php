@@ -9,7 +9,6 @@ dir="{{ Helper::determineLanguageDirection() }}">
         @show
         :: {{ $snipeSettings->site_name }}
     </title>
-    <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -43,28 +42,6 @@ dir="{{ Helper::determineLanguageDirection() }}">
     {{-- page level css --}}
     @stack('css')
 
-
-
-    @if (($snipeSettings) && ($snipeSettings->header_color!=''))
-        <style nonce="{{ csrf_token() }}">
-            .main-header .navbar, .main-header .logo {
-                background-color: {{ $snipeSettings->header_color }};
-                background: -webkit-linear-gradient(top,  {{ $snipeSettings->header_color }} 0%,{{ $snipeSettings->header_color }} 100%);
-                background: linear-gradient(to bottom, {{ $snipeSettings->header_color }} 0%,{{ $snipeSettings->header_color }} 100%);
-                border-color: {{ $snipeSettings->header_color }};
-            }
-
-            .skin-{{ $snipeSettings->skin!='' ? $snipeSettings->skin : 'blue' }} .sidebar-menu > li:hover > a, .skin-{{ $snipeSettings->skin!='' ? $snipeSettings->skin : 'blue' }} .sidebar-menu > li.active > a {
-                border-left-color: {{ $snipeSettings->header_color }};
-            }
-
-            .btn-primary {
-                background-color: {{ $snipeSettings->header_color }};
-                border-color: {{ $snipeSettings->header_color }};
-            }
-        </style>
-    @endif
-
     {{-- Custom CSS --}}
     @if (($snipeSettings) && ($snipeSettings->custom_css))
         <style>
@@ -81,342 +58,452 @@ dir="{{ Helper::determineLanguageDirection() }}">
         };
     </script>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <script src="{{ url(asset('js/html5shiv.js')) }}" nonce="{{ csrf_token() }}"></script>
     <script src="{{ url(asset('js/respond.js')) }}" nonce="{{ csrf_token() }}"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
 <style>
-
-
-body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-
-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-
-}
-
-body {
-
-background-color: #f3f4f6;
-
-color: #1f2937;
-
-font-size: 14px;
-
-}
-
-
-
-.box {
-
-border-radius: 16px !important;
-
-box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
-
-border: none !important;
-
-background: #fff;
-
-margin-bottom: 30px !important;
-
-}
-
-.box-header {
-
-padding: 20px 30px !important;
-
-border-bottom: 1px solid #f3f4f6;
-
-border-radius: 16px 16px 0 0 !important;
-
-}
-
-.box-title {
-
-font-weight: 700 !important;
-
-font-size: 18px !important;
-
-color: #111827;
-
-letter-spacing: -0.5px;
-
-}
-
-.box-body {
-
-padding: 30px !important;
-
-}
-
-.box-footer {
-
-background-color: #fff !important;
-
-border-top: 1px solid #f3f4f6 !important;
-
-border-radius: 0 0 16px 16px !important;
-
-padding: 20px 30px !important;
-
-}
-
-
-
-.btn {
-
-border-radius: 8px !important;
-
-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-
-font-weight: 600;
-
-border: 1px solid transparent !important;
-
-padding: 8px 20px;
-
-transition: all 0.2s ease;
-
-font-size: 13px;
-
-letter-spacing: 0.3px;
-
-}
-
-
-
-.btn-primary { background-color: #3b82f6 !important; color: #fff !important; box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3); }
-
-.btn-success { background-color: #10b981 !important; color: #fff !important; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
-
-.btn-danger { background-color: #ef4444 !important; color: #fff !important; }
-
-.btn-warning { background-color: #f59e0b !important; color: #fff !important; }
-
-.btn-default {
-
-background-color: #fff !important;
-
-border: 1px solid #e5e7eb !important;
-
-color: #374151 !important;
-
-}
-
-.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 8px -1px rgba(0,0,0,0.1); opacity: 0.95; }
-
-
-
-
-.form-control {
-
-border-radius: 10px !important;
-
-height: 45px;
-
-border: 1px solid #e5e7eb !important;
-
-background-color: #f9fafb;
-
-padding: 0 15px;
-
-transition: all 0.2s;
-
-}
-
-.form-control:focus {
-
-border-color: #3b82f6 !important;
-
-background-color: #fff;
-
-box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-
-}
-
-.select2-container .select2-selection--single {
-
-height: 45px !important;
-
-border-radius: 10px !important;
-
-border: 1px solid #e5e7eb !important;
-
-background-color: #f9fafb !important;
-
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-
-line-height: 32px !important;
-
-padding-left: 15px !important;
-
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-
-height: 43px !important;
-
-}
-
-
-
-.table-responsive { border: none !important; }
-
-.table > thead > tr > th {
-
-background-color: #f9fafb;
-
-color: #6b7280;
-
-font-weight: 600;
-
-text-transform: uppercase;
-
-font-size: 11px;
-
-letter-spacing: 0.05em;
-
-border-bottom: 1px solid #e5e7eb !important;
-
-padding: 15px 20px !important;
-
-}
-
-.table > tbody > tr > td {
-
-padding: 16px 20px !important;
-
-vertical-align: middle !important;
-
-border-top: 1px solid #f3f4f6 !important;
-
-color: #4b5563;
-
-}
-
-.table-striped > tbody > tr:nth-of-type(odd) { background-color: #ffffff; }
-
-.table-striped > tbody > tr:nth-of-type(even) { background-color: #f9fafb; }
-
-
-
-
-.fixed-table-toolbar .columns,
-
-.fixed-table-toolbar .bs-bars {
-
-margin-top: 15px;
-
-margin-bottom: 15px;
-
-}
-
-
-
-
-.fixed-table-toolbar .btn-group > .btn {
-
-float: none !important;
-
-display: inline-block !important;
-
-margin-left: 5px !important; /* Jarak antar tombol */
-
-margin-right: 5px !important;
-
-border-radius: 10px !important; /* Membuat tombol bulat sendiri-sendiri */
-
-border: 1px solid #e5e7eb !important;
-
-background-color: #ffffff !important;
-
-color: #4b5563 !important;
-
-height: 40px;
-
-box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
-
-}
-
-
-
-
-.fixed-table-toolbar .btn-group > .btn:hover,
-
-.fixed-table-toolbar .btn-group > .btn.active {
-
-background-color: #f3f4f6 !important;
-
-border-color: #3b82f6 !important;
-
-color: #3b82f6 !important;
-
-z-index: 1;
-
-}
-
-
-
-/* Ikon di dalam tombol toolbar */
-
-.fixed-table-toolbar .btn > i {
-
-font-size: 14px;
-
-}
-
-
-
-.fixed-table-toolbar .dropdown-menu {
-
-border-radius: 12px !important;
-
-box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-
-border: 1px solid #e5e7eb !important;
-
-margin-top: 10px;
-
-}
-
-
-.main-header .navbar { box-shadow: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
-
-.main-header .logo { font-weight: 800; letter-spacing: -0.5px; }
-
-.sidebar-menu > li > a { border-radius: 0 50px 50px 0; margin-right: 20px; padding: 12px 20px; }
-
-.sidebar-menu > li.active > a { font-weight: 700; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
-
-
-/* 7. OTHER UI ELEMENTS */
-
-.badge { padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 10px; }
-
-.label { border-radius: 6px; padding: 5px 10px; font-size: 11px; }
-
-.nav-tabs-custom { border-radius: 16px; }
-
-.alert { border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: none; }
-
-
-
-/* Hilangkan garis kotak luar tabel bootstrap */
-
-.bootstrap-table .fixed-table-container {
-
-border: 1px solid #f3f4f6 !important;
-
-border-radius: 16px;
-
-overflow: hidden;
-
-}
-
+    /* Kustomisasi warna Loading Bar jadi Biru/Sesuai Tema */
+    #nprogress .bar {
+        background: #3b82f6 !important; /* Warna Biru */
+        height: 3px !important;
+        box-shadow: 0 0 10px #3b82f6, 0 0 5px #3b82f6;
+    }
+    #nprogress .spinner { display: none; } /* Hilangkan spinner lingkaran kanan atas */
 </style>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<style>
+    /* =========================================================
+       1. GLOBAL & TYPOGRAPHY
+       ========================================================= */
+    /* Import Font Inter */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    }
+    body {
+        background-color: #f3f4f6;
+        color: #1f2937;
+        font-size: 14px;
+    }
+
+    /* =========================================================
+       2. MODERN HEADER & NAVBAR (FIXED FOR LONG NAMES)
+       ========================================================= */
+    
+    /* A. Reset Header Layout & Paksa Warna Putih */
+    .main-header {
+        max-height: 70px !important;
+        height: 70px !important;
+        box-shadow: 0 1px 15px rgba(0,0,0,0.04);
+        background-color: #ffffff !important;
+        z-index: 1030;
+        position: relative;
+    }
+
+    /* B. Override Warna Bawaan (Hapus Biru/Tosca) */
+    .skin-blue .main-header .navbar,
+    .skin-blue .main-header .logo,
+    .skin-blue .main-header .logo:hover,
+    .main-header .navbar, 
+    .main-header .logo {
+        background-color: #ffffff !important;
+        background: #ffffff !important;
+        border-bottom: 1px solid #f3f4f6;
+        transition: none !important;
+    }
+
+    /* C. Logo Area Fixing (SOLUSI NAMA PANJANG) */
+    .main-header .logo {
+        height: 70px !important;
+        line-height: 70px !important;
+        color: #1f2937 !important; /* Warna teks hitam */
+        font-weight: 800;
+        letter-spacing: -0.3px;
+        text-align: left;
+        padding-left: 20px;
+        padding-right: 10px;
+        width: 230px !important; /* Lebar Sidebar */
+        border-right: 1px solid #f3f4f6;
+        display: block; /* Ganti flex ke block agar ellipsis jalan */
+        float: left !important;
+        
+        /* Logika Pemotongan Teks Panjang */
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        font-size: 18px !important; /* Ukuran font disesuaikan agar muat */
+    }
+    
+    /* Styling gambar logo kecil di sebelah teks */
+    .main-header .logo .navbar-brand-img {
+        max-height: 30px !important;
+        margin-right: 8px;
+        margin-top: -4px; /* Center vertical adjustment */
+        vertical-align: middle;
+        display: inline-block;
+    }
+    
+    /* Span teks nama situs */
+    .main-header .logo span {
+        vertical-align: middle;
+    }
+
+    /* D. Navbar Container */
+    .main-header .navbar {
+        height: 70px !important;
+        margin-left: 230px !important; 
+        border: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 0 30px 0 0px !important; /* Padding kiri 0 karena ada toggle button */
+    }
+
+    /* E. Hamburger Toggle Button (FIXED POSITION) */
+    .main-header .sidebar-toggle {
+        color: #6b7280 !important;
+        width: 50px !important; /* Lebar pasti */
+        height: 70px !important;
+        line-height: 70px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 !important;
+        font-size: 18px;
+        float: left; 
+        background: transparent !important;
+        border-right: 1px solid transparent;
+    }
+    .main-header .sidebar-toggle:hover {
+        background: #f9fafb !important;
+        color: #3b82f6 !important;
+    }
+    .main-header .sidebar-toggle:before { content: none !important; }
+
+    /* F. Search Bar (Pill Shape) */
+    .navbar-form {
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        margin-left: 10px !important; /* Jarak dari tombol hamburger */
+    }
+    #tagSearch {
+        height: 40px !important;
+        border-radius: 50px !important;
+        background-color: #f3f4f6 !important;
+        border: 1px solid transparent !important;
+        width: 280px !important;
+        padding-left: 20px;
+        color: #374151;
+        transition: all 0.3s;
+    }
+    #tagSearch:focus {
+        background-color: #fff !important;
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+        width: 350px !important;
+    }
+    #topSearchButton {
+        margin-left: -40px !important;
+        background: #3b82f6 !important;
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        border: none !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+    }
+
+    /* G. Right Menu Icons */
+    .navbar-custom-menu > .navbar-nav {
+        display: flex; 
+        flex-direction: row; 
+        align-items: center; 
+        height: 70px;
+        margin: 0;
+    }
+    .navbar-nav > li {
+        float: none !important;
+        display: inline-block;
+        margin-left: 4px;
+    }
+    .navbar-nav > li > a {
+        height: 40px;
+        width: 40px;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280 !important;
+        border-radius: 10px;
+        transition: all 0.2s;
+        margin-top: 0 !important;
+    }
+    .navbar-nav > li > a:hover, .navbar-nav > li.open > a {
+        background-color: #f3f4f6 !important;
+        color: #111827 !important;
+    }
+    
+    /* User Profile Image */
+    .navbar-nav > .user-menu .user-image {
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        margin-right: 0;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        float: none;
+    }
+    .navbar-nav > .user-menu > a {
+        width: auto !important;
+        padding: 0 10px !important;
+        gap: 8px;
+    }
+
+    /* =========================================================
+       3. COMPONENT STYLES (Box, Button, Form)
+       ========================================================= */
+    .box {
+        border-radius: 16px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
+        border: none !important;
+        background: #fff;
+        margin-bottom: 30px !important;
+    }
+    .box-header {
+        padding: 20px 30px !important;
+        border-bottom: 1px solid #f3f4f6;
+        border-radius: 16px 16px 0 0 !important;
+    }
+    .box-title {
+        font-weight: 700 !important;
+        font-size: 18px !important;
+        color: #111827;
+        letter-spacing: -0.5px;
+    }
+    .box-body { padding: 30px !important; }
+    .box-footer {
+        background-color: #fff !important;
+        border-top: 1px solid #f3f4f6 !important;
+        border-radius: 0 0 16px 16px !important;
+        padding: 20px 30px !important;
+    }
+
+    /* BUTTONS */
+    .btn {
+        border-radius: 8px !important;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        font-weight: 600;
+        border: 1px solid transparent !important;
+        padding: 8px 20px;
+        transition: all 0.2s ease;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+    }
+    .btn-primary { background-color: #3b82f6 !important; color: #fff !important; box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3); }
+    .btn-success { background-color: #10b981 !important; color: #fff !important; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
+    .btn-danger { background-color: #ef4444 !important; color: #fff !important; }
+    .btn-warning { background-color: #f59e0b !important; color: #fff !important; }
+    .btn-default {
+        background-color: #fff !important;
+        border: 1px solid #e5e7eb !important;
+        color: #374151 !important;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 8px -1px rgba(0,0,0,0.1); opacity: 0.95; }
+
+    /* FORMS */
+    .form-control, .select2-selection--single {
+        border-radius: 10px !important;
+        height: 45px !important;
+        border: 1px solid #e5e7eb !important;
+        background-color: #f9fafb !important;
+        box-shadow: none !important;
+    }
+    .form-control:focus {
+        border-color: #3b82f6 !important;
+        background-color: #fff !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 43px !important; padding-left: 15px !important;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow { height: 43px !important; }
+
+    /* =========================================================
+       4. TABLE STYLES
+       ========================================================= */
+    .table > thead > tr > th {
+        background-color: #f9fafb;
+        color: #6b7280;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid #e5e7eb !important;
+        padding: 12px 15px !important;
+        white-space: nowrap !important;
+    }
+    .table > tbody > tr > td {
+        padding: 10px 15px !important;
+        vertical-align: middle !important;
+        border-top: 1px solid #f3f4f6 !important;
+        color: #4b5563;
+        white-space: nowrap !important;
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .table-striped > tbody > tr:hover {
+        background-color: #ffffff !important;
+        transform: scale(1.002);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        border-left: 3px solid #3b82f6;
+    }
+    .table-striped > tbody > tr:hover > td {
+        border-top-color: transparent !important;
+        border-bottom-color: transparent !important;
+    }
+    .fixed-table-toolbar .btn-group > .btn {
+        border-radius: 8px !important; margin: 0 2px;
+        background-color: #fff !important; border: 1px solid #e5e7eb !important;
+        color: #4b5563 !important; height: 38px;
+    }
+    .bootstrap-table .fixed-table-container {
+        border: 1px solid #f3f4f6 !important; border-radius: 16px; overflow: visible; 
+    }
+
+    /* =========================================================
+       5. MODERN SIDEBAR
+       ========================================================= */
+    .main-sidebar, .left-side {
+        background-color: #ffffff !important;
+        border-right: 1px solid #e5e7eb;
+        padding-top: 10px;
+    }
+    /* Menu Item */
+    .sidebar-menu > li > a {
+        color: #4b5563 !important;
+        font-weight: 500;
+        border-radius: 12px !important;
+        margin: 4px 12px !important;
+        padding: 12px 16px !important;
+        border: none !important;
+        transition: all 0.2s ease-in-out;
+        display: flex;
+        align-items: center;
+    }
+    .sidebar-menu > li > a > i, .sidebar-menu > li > a > svg {
+        margin-right: 12px;
+        font-size: 18px;
+        color: #9ca3af;
+        width: 24px;
+        text-align: center;
+        transition: color 0.2s;
+    }
+    /* Active & Hover State */
+    .sidebar-menu > li:hover > a,
+    .sidebar-menu > li.active > a,
+    .sidebar-menu > li.menu-open > a {
+        background-color: #eff6ff !important;
+        color: #3b82f6 !important;
+    }
+    .sidebar-menu > li:hover > a > i,
+    .sidebar-menu > li.active > a > i {
+        color: #3b82f6 !important;
+    }
+    /* Remove Left Border from old theme */
+    .skin-blue .sidebar-menu > li:hover > a, 
+    .skin-blue .sidebar-menu > li.active > a { border-left: none !important; }
+
+    /* Submenu (Treeview) */
+    .sidebar-menu .treeview-menu {
+        background-color: transparent !important; margin-top: 2px; padding-left: 5px;
+    }
+    .treeview-menu > li > a {
+        color: #6b7280 !important; padding: 8px 15px 8px 45px !important; border-radius: 8px; margin: 2px 12px;
+    }
+    .treeview-menu > li > a:hover, .treeview-menu > li.active > a {
+        color: #3b82f6 !important; background-color: rgba(59, 130, 246, 0.05) !important; font-weight: 600;
+    }
+
+    /* Collapsed Sidebar Fixes */
+    .sidebar-collapse .sidebar-menu > li > a {
+        margin: 0 !important; border-radius: 0 !important; padding: 15px 5px !important; justify-content: center;
+    }
+    .sidebar-collapse .sidebar-menu > li > a > span { display: none !important; }
+    .sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
+        background-color: #fff !important; border-radius: 0 12px 12px 0;
+        box-shadow: 5px 5px 20px rgba(0,0,0,0.1); border: 1px solid #e5e7eb;
+        padding: 10px 0; left: 50px !important; width: 220px;
+    }
+
+    /* =========================================================
+       6. MOBILE RESPONSIVE
+       ========================================================= */
+    @media (max-width: 767px) {
+        .main-header .navbar { margin-left: 0 !important; padding: 0 10px !important; }
+        .main-header .logo { display: none !important; }
+        .navbar-custom-menu > .navbar-nav { margin: 0; }
+        #tagSearch { width: 100% !important; min-width: 150px; }
+        .sidebar-open .main-sidebar { transform: translate(0, 0); }
+    }
+    @media (min-width: 768px) {
+        .sidebar-mini.sidebar-collapse .main-header .navbar { margin-left: 50px !important; }
+        .sidebar-mini.sidebar-collapse .main-header .logo { width: 50px !important; border-right: none; }
+    }
+    /* =========================================================
+       7. ANIMATIONS (NEW ADDITION)
+       ========================================================= */
+    
+    /* B. Modal / Popup Animation (Zoom In) */
+    .modal.fade .modal-dialog {
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform: scale(0.8); /* Mulai dari kecil */
+        opacity: 0;
+    }
+    .modal.fade.in .modal-dialog {
+        transform: scale(1); /* Zoom ke normal */
+        opacity: 1;
+    }
+
+    /* C. Form Control Focus Animation */
+    .form-control {
+        transition: all 0.3s ease;
+    }
+    
+    /* D. Button Loading Spinner Style */
+    .btn-loading {
+        position: relative;
+        color: transparent !important;
+        pointer-events: none;
+    }
+    .btn-loading:after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 50%;
+        left: 50%;
+        margin-top: -8px;
+        margin-left: -8px;
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+</style>
 </head>
 
 @if (($snipeSettings) && ($snipeSettings->allow_user_skin==1) && Auth::check() && Auth::user()->present()->skin != '')
@@ -429,368 +516,160 @@ overflow: hidden;
         <a class="skip-main" href="#main">{{ trans('general.skip_to_main_content') }}</a>
         <div class="wrapper">
 
-            <header class="main-header">
+           <header class="main-header">
 
-                <!-- Logo -->
+    <a href="{{ config('app.url') }}" class="logo">
+        @if ($snipeSettings->logo!='')
+            <img class="navbar-brand-img" style="max-height: 40px;" 
+                 src="{{ Storage::disk('public')->url($snipeSettings->logo) }}" 
+                 alt="{{ $snipeSettings->site_name }}">
+        @endif
+        <span class="{{ $snipeSettings->logo!='' ? 'hidden-xs' : '' }}">{{ $snipeSettings->site_name }}</span>
+    </a>
 
+    <nav class="navbar navbar-static-top" role="navigation">
+        
+        <div style="display: flex; align-items: center; flex-grow: 1;">
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <i class="fa fa-bars"></i> <span class="sr-only">{{ trans('general.toggle_navigation') }}</span>
+            </a>
 
-                <!-- Header Navbar: style can be found in header.less -->
-                <nav class="navbar navbar-static-top" role="navigation">
-                    <!-- Sidebar toggle button above the compact sidenav -->
-                    <a href="#" style="color: white" class="sidebar-toggle btn btn-white" data-toggle="push-menu"
-                       role="button">
-                        <span class="sr-only">{{ trans('general.toggle_navigation') }}</span>
-                    </a>
-                    <div class="nav navbar-nav navbar-left">
-                        <div class="left-navblock">
-                            @if ($snipeSettings->brand == '3')
-                                <a class="logo navbar-brand no-hover" href="{{ config('app.url') }}">
-                                    @if ($snipeSettings->logo!='')
-                                        <img class="navbar-brand-img"
-                                             src="{{ Storage::disk('public')->url($snipeSettings->logo) }}"
-                                             alt="{{ $snipeSettings->site_name }} logo">
-                                    @endif
-                                    {{ $snipeSettings->site_name }}
-                                </a>
-                            @elseif ($snipeSettings->brand == '2')
-                                <a class="logo navbar-brand no-hover" href="{{ config('app.url') }}">
-                                    @if ($snipeSettings->logo!='')
-                                        <img class="navbar-brand-img"
-                                             src="{{ Storage::disk('public')->url($snipeSettings->logo) }}"
-                                             alt="{{ $snipeSettings->site_name }} logo">
-                                    @endif
-                                    <span class="sr-only">{{ $snipeSettings->site_name }}</span>
-                                </a>
-                            @else
-                                <a class="logo navbar-brand no-hover" href="{{ config('app.url') }}">
-                                    {{ $snipeSettings->site_name }}
-                                </a>
-                            @endif
-                        </div>
+            @can('index', \App\Models\Asset::class)
+                <form class="navbar-form hidden-xs" role="search" style="flex-grow: 1; max-width: 600px;"
+                      action="{{ route('findbytag/hardware') }}" method="get">
+                    <div class="input-group" style="width: 100%; display:flex; align-items:center;">
+                        <input type="text" class="form-control" id="tagSearch" name="assetTag" 
+                               placeholder="Search assets, licenses, etc..." 
+                               style="background-color: #f3f4f6;">
+                        
+                        <button type="submit" id="topSearchButton" class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <input type="hidden" name="topsearch" value="true" id="search">
                     </div>
+                </form>
+            @endcan
+        </div>
 
-                    <!-- Navbar Right Menu -->
-                    <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
-                            @can('index', \App\Models\Asset::class)
-                                <li aria-hidden="true"{!! (request()->is('hardware*') ? ' class="active"' : '') !!}>
-                                    <a href="{{ url('hardware') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=1" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.assets') }}">
-                                        <x-icon type="assets" class="fa-fw" />
-                                        <span class="sr-only">{{ trans('general.assets') }}</span>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                
+                @can('admin')
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{{ trans('general.create') }}">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @can('create', \App\Models\Asset::class)
+                                <li{!! (request()->is('hardware/create') ? ' class="active"' : '') !!}>
+                                    <a href="{{ route('hardware.create') }}">
+                                        <x-icon type="assets" class="fa-fw" /> {{ trans('general.asset') }}
                                     </a>
                                 </li>
                             @endcan
-                            @can('view', \App\Models\License::class)
-                                <li aria-hidden="true"{!! (request()->is('licenses*') ? ' class="active"' : '') !!}>
-                                    <a href="{{ route('licenses.index') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=2" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.licenses') }}">
-                                        <x-icon type="licenses" class="fa-fw" />
-                                        <span class="sr-only">{{ trans('general.licenses') }}</span>
-                                    </a>
-                                </li>
+                            @can('create', \App\Models\License::class)
+                                <li><a href="{{ route('licenses.create') }}"><x-icon type="licenses" class="fa-fw" /> {{ trans('general.license') }}</a></li>
                             @endcan
-                            @can('index', \App\Models\Accessory::class)
-                                <li aria-hidden="true"{!! (request()->is('accessories*') ? ' class="active"' : '') !!}>
-                                    <a href="{{ route('accessories.index') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=3" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.accessories') }}">
-                                        <x-icon type="accessories" class="fa-fw" />
-                                        <span class="sr-only">{{ trans('general.accessories') }}</span>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('index', \App\Models\Consumable::class)
-                                <li aria-hidden="true"{!! (request()->is('consumables*') ? ' class="active"' : '') !!}>
-                                    <a href="{{ url('consumables') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=4" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.consumables') }}">
-                                        <x-icon type="consumables" class="fa-fw" />
-                                        <span class="sr-only">{{ trans('general.consumables') }}</span>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('view', \App\Models\Component::class)
-                                <li aria-hidden="true"{!! (request()->is('components*') ? ' class="active"' : '') !!}>
-                                    <a href="{{ route('components.index') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=5" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.components') }}">
-                                        <x-icon type="components" class="fa-fw" />
-                                        <span class="sr-only">{{ trans('general.components') }}</span>
-                                    </a>
-                                </li>
-                            @endcan
-
-                            @can('index', \App\Models\Asset::class)
-                                <li>
-                                    <form class="navbar-form navbar-left form-horizontal" role="search"
-                                          action="{{ route('findbytag/hardware') }}" method="get">
-                                        <div class="col-xs-12 col-md-12">
-                                            <div class="col-xs-12 form-group">
-                                                <label class="sr-only" for="tagSearch">
-                                                    {{ trans('general.lookup_by_tag') }}
-                                                </label>
-                                                <input type="text" class="form-control" id="tagSearch" name="assetTag" placeholder="{{ trans('general.lookup_by_tag') }}">
-                                                <input type="hidden" name="topsearch" value="true" id="search">
-                                            </div>
-                                            <div class="col-xs-1">
-                                                <button type="submit" id="topSearchButton" class="btn btn-primary pull-right">
-                                                    <x-icon type="search" />
-                                                    <span class="sr-only">{{ trans('general.search') }}</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </li>
-                            @endcan
-
-                            @can('admin')
-                                <li class="dropdown" aria-hidden="true">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" tabindex="-1">
-                                        {{ trans('general.create') }}
-                                        <strong class="caret"></strong>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        @can('create', \App\Models\Asset::class)
-                                            <li{!! (request()->is('hardware/create') ? ' class="active"' : '') !!}>
-                                                <a href="{{ route('hardware.create') }}" tabindex="-1">
-                                                    <x-icon type="assets" class="fa-fw" />
-                                                    {{ trans('general.asset') }}
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can('create', \App\Models\License::class)
-                                            <li{!! (request()->is('licenses/create') ? ' class="active"' : '') !!}>
-                                                <a href="{{ route('licenses.create') }}" tabindex="-1">
-                                                    <x-icon type="licenses" class="fa-fw" />
-                                                    {{ trans('general.license') }}
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can('create', \App\Models\Accessory::class)
-                                            <li {!! (request()->is('accessories/create') ? 'class="active"' : '') !!}>
-                                                <a href="{{ route('accessories.create') }}" tabindex="-1">
-                                                    <x-icon type="accessories" class="fa-fw" />
-                                                    {{ trans('general.accessory') }}
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can('create', \App\Models\Consumable::class)
-                                            <li {!! (request()->is('consunmables/create') ? 'class="active"' : '') !!}>
-                                                <a href="{{ route('consumables.create') }}" tabindex="-1">
-                                                    <x-icon type="consumables" class="fa-fw" />
-                                                    {{ trans('general.consumable') }}
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can('create', \App\Models\Component::class)
-                                            <li {!! (request()->is('components/create') ? 'class="active"' : '') !!}>
-                                                <a href="{{ route('components.create') }}" tabindex="-1">
-                                                    <x-icon type="components" class="fa-fw" />
-                                                    {{ trans('general.component') }}
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can('create', \App\Models\User::class)
-                                            <li {!! (request()->is('users/create') ? 'class="active"' : '') !!}>
-                                                <a href="{{ route('users.create') }}" tabindex="-1">
-                                                    <x-icon type="users" class="fa-fw" />
-                                                    {{ trans('general.user') }}
-                                                </a>
-                                            </li>
-                                        @endcan
-                                    </ul>
-                                </li>
-                            @endcan
-
-                            @can('admin')
-                                <!-- Tasks: style can be found in dropdown.less -->
-                                <?php $alert_items = ($snipeSettings->show_alerts_in_menu=='1') ? Helper::checkLowInventory() : [];
-                                      $deprecations = Helper::deprecationCheck()
-                                        ?>
-
-                                <li class="dropdown tasks-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <x-icon type="alerts" />
-                                        <span class="sr-only">{{ trans('general.alerts') }}</span>
-                                        @if(count($alert_items) + count($deprecations))
-                                            <span class="label label-danger">{{ count($alert_items) + count($deprecations)}}</span>
-                                        @endif
-                                    </a>
-                                    <ul class="dropdown-menu">
-
-                                        @if ((count($alert_items) + count($deprecations)) > 0)
-
-                                            @can('superadmin')
-                                                @if($deprecations)
-                                                    @foreach ($deprecations as $key => $deprecation)
-                                                        @if ($deprecation['check'])
-                                                            <li class="header alert-warning">{!! $deprecation['message'] !!}</li>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                            @endcan
-
-                                            @if($alert_items)
-                                                <li class="header">
-                                                    {{ trans_choice('general.quantity_minimum', count($alert_items)) }}
-                                                </li>
-                                                <li>
-                                                <!-- inner menu: contains the actual data -->
-                                                    <ul class="menu">
-                                                        @for($i = 0; count($alert_items) > $i; $i++)
-                                                            <!-- Task item -->
-                                                            <li>
-                                                                <a href="{{ route($alert_items[$i]['type'].'.show', $alert_items[$i]['id'])}}">
-                                                                    <h2 class="task_menu">{{ $alert_items[$i]['name'] }}
-                                                                        <small class="pull-right">
-                                                                            {{ $alert_items[$i]['remaining'] }} {{ trans('general.remaining') }}
-                                                                        </small>
-                                                                    </h2>
-                                                                    <div class="progress xs">
-                                                                        <div class="progress-bar progress-bar-yellow"
-                                                                             style="width: {{ $alert_items[$i]['percent'] }}%"
-                                                                             role="progressbar"
-                                                                             aria-valuenow="{{ $alert_items[$i]['percent'] }}"
-                                                                             aria-valuemin="0" aria-valuemax="100">
-                                                                            <span class="sr-only">
-                                                                                {{ $alert_items[$i]['percent'] }}%
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <!-- end task item -->
-                                                        @endfor
-                                                    </ul>
-                                                </li>
-                                            @endif
-                                        @else
-                                            <li class="header">
-                                                {{ trans_choice('general.quantity_minimum', 0) }}
-                                            </li>
-
-                                        @endif
-{{--                                        <li class="footer">--}}
-{{--                                          <a href="#">{{ trans('general.tasks_view_all') }}</a>--}}
-{{--                                        </li>--}}
-                                    </ul>
-                                </li>
-                            @endcan
-
-
-
-                            <!-- User Account: style can be found in dropdown.less -->
-                            @if (Auth::check())
-                                <li class="dropdown user user-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        @if (Auth::user()->present()->gravatar())
-                                            <img src="{{ Auth::user()->present()->gravatar() }}" class="user-image"
-                                                 alt="">
-                                        @else
-                                            <x-icon type="user" />
-                                        @endif
-
-                                        <span class="hidden-xs">
-                                            {{ Auth::user()->display_name }}
-                                            <strong class="caret"></strong>
-                                        </span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <!-- User image -->
-                                        <li {!! (request()->is('account/profile') ? ' class="active"' : '') !!}>
-                                            <a href="{{ route('view-assets') }}">
-                                                <x-icon type="checkmark" class="fa-fw" />
-                                                {{ trans('general.viewassets') }}
-                                            </a></li>
-
-                                        @can('viewRequestable', \App\Models\Asset::class)
-                                            <li {!! (request()->is('account/requested') ? ' class="active"' : '') !!}>
-                                                <a href="{{ route('account.requested') }}">
-                                                    <x-icon type="checkmark" class="fa-fw" />
-                                                    {{ trans('general.requested_assets_menu') }}
-                                                </a></li>
-                                        @endcan
-
-                                        <li {!! (request()->is('account/accept') ? ' class="active"' : '') !!}>
-                                            <a href="{{ route('account.accept') }}">
-                                                <x-icon type="checkmark" class="fa-fw" />
-                                                {{ trans('general.accept_assets_menu') }}
-                                            </a></li>
-
-
-                                        @can('self.profile')
-                                        <li>
-                                            <a href="{{ route('profile') }}">
-                                                <x-icon type="user" class="fa-fw" />
-                                                {{ trans('general.editprofile') }}
-                                            </a>
-                                        </li>
-                                        @endcan
-
-                                        @if (Auth::user()->ldap_import!='1')
-                                        <li>
-                                            <a href="{{ route('account.password.index') }}">
-                                                <x-icon type="password" class="fa-fw" />
-                                                {{ trans('general.changepassword') }}
-                                            </a>
-                                        </li>
-                                        @endif
-
-
-                                        @can('self.api')
-                                            <li>
-                                                <a href="{{ route('user.api') }}">
-                                                    <x-icon type="api-key" class="fa-fw" />
-                                                     {{ trans('general.manage_api_keys') }}
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        <li class="divider" style="margin-top: -1px; margin-bottom: -1px"></li>
-                                        <li>
-
-                                            <a href="{{ route('logout.get') }}"
-                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                <x-icon type="logout" class="fa-fw" />
-                                                 {{ trans('general.logout') }}
-                                            </a>
-
-                                            <form id="logout-form" action="{{ route('logout.post') }}" method="POST" style="display: none;">
-                                                <button type="submit" style="display: none;" title="logout"></button>
-                                                {{ csrf_field() }}
-                                            </form>
-
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endif
-
-
-                            @can('superadmin')
-                                <li>
-                                    <a href="{{ route('settings.index') }}">
-                                        <x-icon type="admin-settings" />
-                                        <span class="sr-only">{{ trans('general.admin') }}</span>
-                                    </a>
-                                </li>
+                             @can('create', \App\Models\User::class)
+                                <li><a href="{{ route('users.create') }}"><x-icon type="users" class="fa-fw" /> {{ trans('general.user') }}</a></li>
                             @endcan
                         </ul>
-                    </div>
-                </nav>
-                <a href="#" style="float:left" class="sidebar-toggle-mobile visible-xs btn" data-toggle="push-menu"
-                   role="button">
-                    <span class="sr-only">{{ trans('general.toggle_navigation') }}</span>
-                    <x-icon type="nav-toggle" />
-                </a>
-                <!-- Sidebar toggle button-->
-            </header>
+                    </li>
+                @endcan
 
-            <!-- Left side column. contains the logo and sidebar -->
-            <aside class="main-sidebar">
-                <!-- sidebar: style can be found in sidebar.less -->
-                <section class="sidebar">
-                    <!-- sidebar menu: : style can be found in sidebar.less -->
-                    <ul class="sidebar-menu" data-widget="tree" {{ \App\Helpers\Helper::determineLanguageDirection() == 'rtl' ? 'style="margin-right:12px' : '' }}>
-                        @can('admin')
-                            <li {!! (\Request::route()->getName()=='home' ? ' class="active"' : '') !!} class="firstnav">
-                                <a href="{{ route('home') }}">
-                                    <x-icon type="dashboard" class="fa-fw" />
-                                    <span>{{ trans('general.dashboard') }}</span>
+                @can('index', \App\Models\Asset::class)
+                    <li class="hidden-xs">
+                        <a href="{{ url('hardware') }}" title="{{ trans('general.assets') }}">
+                            <i class="fa fa-barcode"></i>
+                        </a>
+                    </li>
+                @endcan
+                
+                @can('view', \App\Models\License::class)
+                    <li class="hidden-xs">
+                        <a href="{{ route('licenses.index') }}" title="{{ trans('general.licenses') }}">
+                            <i class="fa fa-save"></i>
+                        </a>
+                    </li>
+                @endcan
+
+                @if (Auth::check())
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-right: 0 !important;">
+                            @if (Auth::user()->present()->gravatar())
+                                <img src="{{ Auth::user()->present()->gravatar() }}" class="user-image" alt="User Image">
+                            @else
+                                <i class="fa fa-user-circle fa-2x"></i>
+                            @endif
+                            <span class="hidden-xs" style="margin-left: 8px; font-weight: 600; color: #374151;">
+                                {{ Auth::user()->first_name }}
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ route('profile') }}">
+                                    <i class="fa fa-user fa-fw"></i> {{ trans('general.editprofile') }}
                                 </a>
                             </li>
-                        @endcan
+                            <li class="divider"></li>
+                            <li>
+                                <a href="{{ route('logout.get') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-danger">
+                                    <i class="fa fa-sign-out fa-fw"></i> {{ trans('general.logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout.post') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
+                @can('superadmin')
+                    <li>
+                        <a href="{{ route('settings.index') }}" title="Settings">
+                            <i class="fa fa-cogs"></i>
+                        </a>
+                    </li>
+                @endcan
+            </ul>
+        </div>
+    </nav>
+</header>
+
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <ul class="sidebar-menu" data-widget="tree" {{ \App\Helpers\Helper::determineLanguageDirection() == 'rtl' ? 'style="margin-right:12px' : '' }}>
+                        
+                        {{-- ==================================================== --}}
+                        {{-- MODIFIKASI: DASHBOARD UNTUK USER BIASA --}}
+                        {{-- ==================================================== --}}
+                        
+                        @if(Auth::check())
+                            @can('admin')
+                                {{-- Dashboard Admin (Halaman Statistik) --}}
+                                <li {!! (\Request::route()->getName()=='home' ? ' class="active"' : '') !!} class="firstnav">
+                                    <a href="{{ route('home') }}">
+                                        <x-icon type="dashboard" class="fa-fw" />
+                                        <span>{{ trans('general.dashboard') }}</span>
+                                    </a>
+                                </li>
+                            @else
+                                {{-- Dashboard User (Halaman Aset Saya) --}}
+                                <li {!! (\Request::route()->getName()=='view-assets' ? ' class="active"' : '') !!} class="firstnav">
+                                    <a href="{{ route('view-assets') }}">
+                                        <x-icon type="dashboard" class="fa-fw" />
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                            @endcan
+                        @endif
+
+                        {{-- ==================================================== --}}
+                        {{-- BATAS MODIFIKASI --}}
+                        {{-- ==================================================== --}}
+
+
                         @can('index', \App\Models\Asset::class)
                             <li class="treeview{{ ((request()->is('statuslabels/*') || request()->is('hardware*')) ? ' active' : '') }}">
                                 <a href="#">
@@ -1129,7 +1008,7 @@ overflow: hidden;
                                 </ul>
                             </li>
                         @endcan
-{{-- MODIFIKASI: MENU TIKETING --}}
+{{-- MENU TIKETING TETAP ADA --}}
                         @if(Auth::check())
                         <li class="treeview{{ (request()->is('tickets*') ? ' active' : '') }}">
                             <a href="#">
@@ -1164,7 +1043,7 @@ overflow: hidden;
                             </ul>
                         </li>
                         @endif
-                        {{-- AKHIR MODIFIKASI --}}
+                        
                         @can('reports.view')
                             <li class="treeview{{ (request()->is('reports*') ? ' active' : '') }}">
                                 <a href="#" class="dropdown-toggle">
@@ -1229,10 +1108,7 @@ overflow: hidden;
 
                     </ul>
                 </section>
-                <!-- /.sidebar -->
-            </aside>
-
-            <!-- Content Wrapper. Contains page content -->
+                </aside>
 
             <div class="content-wrapper" role="main" id="setting-list">
 
@@ -1247,7 +1123,6 @@ overflow: hidden;
                     </div>
                 @endif
 
-                <!-- Content Header (Page header) -->
                 <section class="content-header">
 
 
@@ -1315,7 +1190,6 @@ overflow: hidden;
 
                 <section class="content" id="main" tabindex="-1" style="padding-top: 0px;">
 
-                    <!-- Notifications -->
                     <div class="row">
                         @if (config('app.lock_passwords'))
                             <div class="col-md-12">
@@ -1329,15 +1203,13 @@ overflow: hidden;
                     </div>
 
 
-                    <!-- Content -->
                     <div id="{!! (request()->is('*api*') ? 'app' : 'webui') !!}">
                         @yield('content')
                     </div>
 
                 </section>
 
-            </div><!-- /.content-wrapper -->
-            <footer class="main-footer hidden-print" style="display:grid;flex-direction:column;">
+            </div><footer class="main-footer hidden-print" style="display:grid;flex-direction:column;">
 
                 <div class="1hidden-xs pull-left">
                     <div class="pull-left">
@@ -1382,12 +1254,7 @@ overflow: hidden;
                     @endif
                 </div>
             </footer>
-        </div><!-- ./wrapper -->
-
-
-        <!-- end main container -->
-
-        <div class="modal modal-danger fade" id="dataConfirmModal" tabindex="-1" role="dialog" aria-labelledby="dataConfirmModalLabel" aria-hidden="true">
+        </div><div class="modal modal-danger fade" id="dataConfirmModal" tabindex="-1" role="dialog" aria-labelledby="dataConfirmModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1728,6 +1595,105 @@ overflow: hidden;
                 $("#tagSearch").focus();
             </script>
         @endif
+<script>
+    $(document).ready(function() {
+        
+        // 1. Animasi Tombol Submit
+        // Setiap ada form yang dikirim (submit), cari tombol submit-nya
+        $('form').on('submit', function() {
+            var $btn = $(this).find('button[type="submit"], input[type="submit"]');
+            
+            // Cek jika form valid (jika pakai jquery validate)
+            if ($(this).valid && !$(this).valid()) {
+                return; 
+            }
 
+            // Tambahkan efek loading
+            var originalText = $btn.html();
+            $btn.addClass('btn-loading'); // Pakai CSS spinner di atas
+            // Atau ganti teks manual:
+            // $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...');
+        });
+
+        // 2. Animasi Klik Link Navigasi (Optional: Bar Loading di atas)
+        // Jika Anda ingin efek seperti YouTube (garis merah jalan di atas)
+        // Anda perlu library NProgress, tapi script CSS FadeInUp di atas sudah cukup bagus.
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function() {
+        
+        // ==========================================
+        // 1. LOGIKA LOADING BAR (PINDAH HALAMAN)
+        // ==========================================
+        
+        // Jalankan bar saat user meninggalkan halaman (klik link)
+        $(window).on('beforeunload', function() {
+            NProgress.start();
+        });
+
+        // Jalankan bar saat ada proses AJAX (pencarian, filter tabel, dll)
+        $(document).ajaxStart(function() {
+            NProgress.start();
+        });
+        $(document).ajaxStop(function() {
+            NProgress.done();
+        });
+
+
+        // ==========================================
+        // 2. LOGIKA POP-UP DIALOG (SAAT SUBMIT)
+        // ==========================================
+
+        // Tangkap semua form saat disubmit
+        $('form').on('submit', function(e) {
+            var form = this;
+            
+            // Cek validasi HTML5/jQuery Validate dulu
+            if ($(this).valid && !$(this).valid()) {
+                return; // Jika error, jangan munculkan popup
+            }
+
+            // Tampilkan Dialog Loading "Sedang Memproses"
+            Swal.fire({
+                title: 'Sedang Memproses...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            // Biarkan form lanjut mengirim data ke server
+        });
+
+
+        // ==========================================
+        // 3. LOGIKA NOTIFIKASI SUKSES/ERROR (SERVER)
+        // ==========================================
+        
+        // Cek apakah Laravel mengirim session 'success'
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                timer: 3000,
+                showConfirmButton: false
+            });
+        @endif
+
+        // Cek apakah Laravel mengirim session 'error'
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: "{{ session('error') }}",
+            });
+        @endif
+    }); 
+</script>
         </body>
 </html>

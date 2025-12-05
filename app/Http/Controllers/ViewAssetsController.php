@@ -107,7 +107,7 @@ class ViewAssetsController extends Controller
 
     /**
      * Show user's assigned assets with optional manager view functionality.
-     *
+     * UPDATE: Menggunakan withoutGlobalScopes untuk memaksa aset muncul di dashboard user
      */
     public function getIndex(Request $request) : View | RedirectResponse
     {
@@ -122,34 +122,48 @@ class ViewAssetsController extends Controller
             $selectedUserId = $this->getSelectedUserId($request, $subordinates, $authUser->id);
         }
 
-        // Load the data for the user to be viewed (either auth user or selected subordinate)
+        // 1. Ambil User TANPA relasi 'assets' (agar tidak bentrok)
         $userToView = User::with([
-            'assets',
-            'assets.model',
-            'assets.model.fieldset.fields',
             'consumables',
             'accessories',
             'licenses'
         ])->find($selectedUserId);
 
-        // If the user to view couldn't be found (shouldn't happen with proper logic), redirect with error
+        // If the user to view couldn't be found, redirect with error
         if (!$userToView) {
             return redirect()->route('view-assets')->with('error', trans('admin/users/message.user_not_found'));
         }
 
-        // Process custom fields for the user being viewed
+        // 2. LOGIKA "PAKSA" AMBIL DATA ASET (Bypassing Global Scopes)
+        $forcedAssets = \App\Models\Asset::withoutGlobalScopes()
+            ->where('assigned_to', $selectedUserId)        
+            ->where('assigned_type', 'App\Models\User')    // Menggunakan string agar lebih aman
+            ->whereNull('deleted_at')                      
+            ->with([                                       
+                'model',
+                'model.category',
+                'model.fieldset.fields', 
+                'assetstatus',                             // PERBAIKAN DI SINI (Sebelumnya status_label)
+                'location',
+                'defaultLoc'
+            ])
+            ->get();
+
+        // 3. INJEKSI KE OBJECT USER
+        $userToView->setRelation('assets', $forcedAssets);
+
+        // Process custom fields 
         $fieldArray = $this->extractCustomFields($userToView);
 
         // Pass the necessary data to the view
         return view('account/view-assets', [
-            'user' => $userToView, // Use 'user' for compatibility with the existing view
+            'user' => $userToView, 
             'field_array' => $fieldArray,
             'settings' => $settings,
             'subordinates' => $subordinates,
             'selectedUserId' => $selectedUserId
         ]);
     }
-
     /**
      * Returns view of requestable items for a user.
      */
